@@ -236,4 +236,4 @@ while True:
 
 ```
 
-Code python fait en seconde comme on peux voir a la fin si l'utilsateur fait moins de 7000 points on supprime tout ce qui a dans ça racine (C'est un jeu d'aim il faut tout simplement visé des cible)
+Code python fait en seconde, comme on peux voir a la fin de ce code si l'utilsateur fait moins de 7000 points on supprime tout ce qui a dans ça racine (C'est un jeu d'aim il faut tout simplement visé des cible)
