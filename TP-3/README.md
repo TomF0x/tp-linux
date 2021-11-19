@@ -2,7 +2,7 @@
 
 ## I. Script carte d'identité
 
-📁 **Fichier** [**`/srv/idcard/idcard.sh`**](https://github.com/TomF0x/tp-linux/blob/main/TP-3/srv/idcard/idcard.sh)
+📁 **Fichier [`/srv/idcard/idcard.sh`](https://github.com/TomF0x/tp-linux/blob/main/TP-3/srv/idcard/idcard.sh)**
 
 ```bash
 tomfox@tomfox:~$ sudo bash idcard.sh 
@@ -23,8 +23,13 @@ Listening ports :
  - 22 : sshd
 Here's your random cat : https://cdn2.thecatapi.com/images/a14.jpg
 ```
+
 <img src="https://cdn2.thecatapi.com/images/a14.jpg">
 
-
 ## II. Script youtube-dl
+
+📁 **Le script [`/srv/yt/yt.sh`](https://github.com/TomF0x/tp-linux/blob/main/TP-3/srv/yt/yt.sh)**
+
+📁 **Le fichier de log [`/var/log/yt/download.log`]()**
+
 [![asciicast](https://asciinema.org/a/zAjOwISrOxtWDaCxRFApCgwDf.svg)](https://asciinema.org/a/zAjOwISrOxtWDaCxRFApCgwDf)
