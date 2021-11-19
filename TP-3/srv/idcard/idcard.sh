@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if ! command -v jq &> /dev/null ; then
         echo "You need to install jq (apt install jq)"
         exit

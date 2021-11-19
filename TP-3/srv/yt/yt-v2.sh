@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 path="/home/tomfox/tp-linux/TP-3/"
 while :
 do

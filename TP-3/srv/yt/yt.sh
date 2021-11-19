@@ -1,8 +1,15 @@
+#!/usr/bin/env bash
+
+if ! command -v youtube-dl &> /dev/null ; then
+        echo "You need to install youtube-dl (https://github.com/ytdl-org/youtube-dl)"
+        exit
+fi
 if [[ -d downloads && -d /var/log/yt ]];
         then
         videoname=$(youtube-dl -e "$1" 2>&1)
-        if [[ ! $1 =~ "https://www.youtube.com/watch" ]]; then
-                echo "[$(date "+%D %T")] Invalid link ($1)"
+        if [[ ! $1 =~ https://www.youtube.com/watch ]]; then
+                echo "Invalid link ($1)"
+                echo "[$(date "+%D %T")] Invalid link ($1)" >> /var/log/yt/downloads.log
                 sed -i '1d' links.txt
         elif [[ $videoname =~ "ERROR" ]]; then
                 echo "$videoname"
