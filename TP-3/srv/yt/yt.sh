@@ -1,6 +1,10 @@
 if [[ -d downloads && -d /var/log/yt ]];
 	then
-	videoname=`youtube-dl -e $1`
+	videoname=`youtube-dl -e $1 2>&1`
+	if [[ $videoname =~ "ERROR" ]]; then
+		echo $videoname
+		exit
+	fi
 	mkdir "downloads/${videoname}"
 	cd "downloads/${videoname}" && youtube-dl -f mp4 -o "${videoname}.mp4" $1 &> /dev/null && youtube-dl --get-description $1 > description
 	echo "Video $1 was downloaded."
