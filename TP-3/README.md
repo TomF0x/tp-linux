@@ -128,3 +128,25 @@ sudo systemctl enable yt
 [![asciicast](https://asciinema.org/a/zAjOwISrOxtWDaCxRFApCgwDf.svg)](https://asciinema.org/a/zAjOwISrOxtWDaCxRFApCgwDf)
 
 ## IV. Bonus
+
+- En accord avec les règles de [ShellCheck](https://www.shellcheck.net/) :heavy_check_mark: 
+- fonction `usage` :heavy_check_mark:
+```bash
+❯ sudo bash yt.sh -h
+Usage: yt.sh [options...] <url>
+ -q <quality> (best,worst,bestvideo,worstvideo,bestaudio,worstaudio)
+ -o <directory> output file
+❯ sudo bash yt.sh -o /home/tomfox/ https://www.youtube.com/watch\?v\=Wch3gJG2GJ4
+Video https://www.youtube.com/watch?v=Wch3gJG2GJ4 was downloaded.
+File path : /home/tomfox/1 Second Video/1 Second Video.mp4
+❯ ls /home/tomfox/1\ Second\ Video
+'1 Second Video.mp4'   description
+❯ sudo bash yt.sh -q worstvideo https://www.youtube.com/watch\?v\=Wch3gJG2GJ4
+Video https://www.youtube.com/watch?v=Wch3gJG2GJ4 was downloaded.
+File path : downloads/1 Second Video/1 Second Video.mp4
+```
+(crois-moi ça marche la video est très moche)
+- Si votre script utilise des commandes non-présentes à l'installation (`youtube-dl`, `jq` éventuellement, etc.) :heavy_check_mark:
+- Si votre script a besoin de l'existence d'un dossier ou d'un utilisateur :heavy_check_mark:
+- Vérifiez à l'aide d'une expression régulière que les strings saisies dans le fichier sont bien des URLs de vidéos Youtube :heavy_check_mark:
+n

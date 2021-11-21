@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 path="/home/tomfox/tp-linux/TP-3/"
-while :
-do
+while: do
         if [[ -d ${path}srv/yt/downloads && -d /var/log/yt ]]; then
                 for i in $(cat ${path}srv/yt/links.txt | xargs); do
                         videoname=$(youtube-dl -e "$i" 2>&1)
@@ -25,5 +24,5 @@ do
         else
                 echo "Il manque un dossier"
         fi
-        sleep 5
+        sleep 10
 done
