@@ -19,7 +19,6 @@ if [[ -d downloads && -d /var/log/yt ]]; then
         if [[ ! ${!#} =~ https://www.youtube.com/watch ]]; then
                 echo "Invalid link (${!#})"
                 echo "[$(date "+%D %T")] Invalid link (${!#})" >> /var/log/yt/downloads.log
-                sed -i '1d' links.txt
         elif [[ $videoname =~ "ERROR" ]]; then
                 echo "$videoname"
                 exit
