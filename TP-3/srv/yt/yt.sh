@@ -4,6 +4,7 @@ usage() {
 	echo "Usage: yt.sh [options...] <url>"
 	echo " -q <quality> (best,worst,bestvideo,worstvideo,bestaudio,worstaudio)"
 	echo " -o <directory> output file"
+	echo " -h to show this menu"
 	exit
 }
 
