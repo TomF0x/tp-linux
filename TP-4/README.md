@@ -136,11 +136,11 @@ node1.tp4.linux
 **🌞 Installez NGINX en vous référant à des docs online**
 
 ```
-[tomfox@localhost ~]$ sudo dnf install nginx
+[tomfox@node1 ~]$ sudo dnf install nginx
 ```
 ```bash
-[tomfox@localhost ~]$ sudo systemctl start nginx
-[tomfox@localhost ~]$ systemctl status nginx
+[tomfox@node1 ~]$ sudo systemctl start nginx
+[tomfox@node1 ~]$ systemctl status nginx
 ● nginx.service - The nginx HTTP and reverse proxy server
    Loaded: loaded (/usr/lib/systemd/system/nginx.service; disabled; vendor preset: disabled)
    Active: active (running) since Tue 2021-11-23 12:09:58 CET; 3s ago
@@ -166,18 +166,18 @@ On voit bien que le service est installer et lancer
 **🌞 Analysez le service NGINX**
 
 ```bash
-[tomfox@localhost ~]$ ps -aux | grep nginx
+[tomfox@node1 ~]$ ps -aux | grep nginx
 nginx       5310  0.0  0.4 151820  8068 ?        S    12:09   0:00 nginx: worker process
 ```
 L'utilisateur qui fait tourner le processus du service NGINX est user nginx
 
 ```bash
-tomfox@localhost ~]$ sudo ss -ltpn  | grep nginx
+tomfox@node1 ~]$ sudo ss -ltpn  | grep nginx
 LISTEN 0      128          0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=5310,fd=8),("nginx",pid=5309,fd=8))
 LISTEN 0      128             [::]:80           [::]:*    users:(("nginx",pid=5310,fd=9),("nginx",pid=5309,fd=9))
-[tomfox@localhost ~]$ cat /etc/nginx/nginx.conf | grep root
+[tomfox@node1 ~]$ cat /etc/nginx/nginx.conf | grep root
         root         /usr/share/nginx/html;
-[tomfox@localhost ~]$ ls -la /usr/share/nginx/html
+[tomfox@node1 ~]$ ls -la /usr/share/nginx/html
 total 20
 drwxr-xr-x. 2 root root   99 Nov 23 12:08 .
 drwxr-xr-x. 4 root root   33 Nov 23 12:08 ..
@@ -193,9 +193,9 @@ drwxr-xr-x. 4 root root   33 Nov 23 12:08 ..
 **🌞 Configurez le firewall pour autoriser le trafic vers le service NGINX**
 
 ```bash
-[tomfox@localhost ~]$ sudo firewall-cmd --add-port=80/tcp --permanent
+[tomfox@node1 ~]$ sudo firewall-cmd --add-port=80/tcp --permanent
 success
-[tomfox@localhost ~]$ sudo firewall-cmd --reload
+[tomfox@node1 ~]$ sudo firewall-cmd --reload
 success
 ```
 
@@ -211,14 +211,14 @@ success
 **🌞 Changer le port d'écoute**
 
 ```bash
-[tomfox@localhost ~]$ cat /etc/nginx/nginx.conf | grep listen
+[tomfox@node1 ~]$ cat /etc/nginx/nginx.conf | grep listen
         listen       8080 default_server;
         listen       [::]:8080 default_server;
 ```
 
 ```bash
-[tomfox@localhost ~]$ sudo systemctl restart nginx
-[tomfox@localhost ~]$ sudo systemctl status nginx
+[tomfox@node1 ~]$ sudo systemctl restart nginx
+[tomfox@node1 ~]$ sudo systemctl status nginx
 ● nginx.service - The nginx HTTP and reverse proxy server
    Loaded: loaded (/usr/lib/systemd/system/nginx.service; disabled; vendor preset: disabled)
    Active: active (running) since Tue 2021-11-23 12:41:35 CET; 5s ago
@@ -239,22 +239,22 @@ Nov 23 12:41:35 node1.tp4.linux nginx[5543]: nginx: the configuration file /etc/
 Nov 23 12:41:35 node1.tp4.linux nginx[5543]: nginx: configuration file /etc/nginx/nginx.conf test is successful
 Nov 23 12:41:35 node1.tp4.linux systemd[1]: nginx.service: Failed to parse PID from file /run/nginx.pid: Invalid argument
 Nov 23 12:41:35 node1.tp4.linux systemd[1]: Started The nginx HTTP and reverse proxy server.
-[tomfox@localhost ~]$ 
+[tomfox@node1 ~]$ 
 
 ```
 
 ```bash
-[tomfox@localhost ~]$ sudo ss -lptn | grep nginx
+[tomfox@node1 ~]$ sudo ss -lptn | grep nginx
 LISTEN 0      128          0.0.0.0:8080      0.0.0.0:*    users:(("nginx",pid=5548,fd=8),("nginx",pid=5547,fd=8))
 LISTEN 0      128             [::]:8080         [::]:*    users:(("nginx",pid=5548,fd=9),("nginx",pid=5547,fd=9))
 ```
 
 ```bash
-[tomfox@localhost ~]$ sudo firewall-cmd --remove-port=80/tcp --permanent
+[tomfox@node1 ~]$ sudo firewall-cmd --remove-port=80/tcp --permanent
 success
-[tomfox@localhost ~]$ sudo firewall-cmd --add-port=8080/tcp --permanent
+[tomfox@node1 ~]$ sudo firewall-cmd --add-port=8080/tcp --permanent
 success
-[tomfox@localhost ~]$ sudo firewall-cmd --reload
+[tomfox@node1 ~]$ sudo firewall-cmd --reload
 success
 ```
 
@@ -266,45 +266,45 @@ success
 **🌞 Changer l'utilisateur qui lance le service**
 
 ```bash
-[tomfox@localhost ~]$ sudo useradd web -m -s /bin/bash -u 2000
-[tomfox@localhost ~]$ sudo passwd web
+[tomfox@node1 ~]$ sudo useradd web -m -s /bin/bash -u 2000
+[tomfox@node1 ~]$ sudo passwd web
 Changing password for user web.
 New password: 
 Retype new password: 
 passwd: all authentication tokens updated successfully.
-[tomfox@localhost ~]$ cat /etc/passwd | grep web
+[tomfox@node1 ~]$ cat /etc/passwd | grep web
 web:x:2000:2000::/home/web:/bin/bash
 ```
 
 ```bash
-[tomfox@localhost ~]$ cat /etc/nginx/nginx.conf
+[tomfox@node1 ~]$ cat /etc/nginx/nginx.conf
 user web;
 ```
 
 ```bash
-[tomfox@localhost ~]$ sudo systemctl restart nginx
+[tomfox@node1 ~]$ sudo systemctl restart nginx
 [sudo] password for tomfox: 
-[tomfox@localhost ~]$ ps -aux | grep nginx
+[tomfox@node1 ~]$ ps -aux | grep nginx
 web         5669  0.0  0.4 151820  7932 ?        S    13:03   0:00 nginx: worker process
 ```
 
 **🌞 Changer l'emplacement de la racine Web**
 
 ```bash
-[tomfox@localhost var]$ sudo mkdir www
-[tomfox@localhost var]$ cd www/
-[tomfox@localhost www]$ sudo mkdir super_site_web
-[tomfox@localhost www]$ cd super_site_web/
-[tomfox@localhost www]$ cd super_site_web/
-[tomfox@localhost super_site_web]$ sudo vi index.html
-[tomfox@localhost super_site_web]$ cd ..
-[tomfox@localhost www]$ sudo chown -R web:web super_site_web/
-[tomfox@localhost www]$ ls -la
+[tomfox@node1 var]$ sudo mkdir www
+[tomfox@node1 var]$ cd www/
+[tomfox@node1 www]$ sudo mkdir super_site_web
+[tomfox@node1 www]$ cd super_site_web/
+[tomfox@node1 www]$ cd super_site_web/
+[tomfox@node1 super_site_web]$ sudo vi index.html
+[tomfox@node1 super_site_web]$ cd ..
+[tomfox@node1 www]$ sudo chown -R web:web super_site_web/
+[tomfox@node1 www]$ ls -la
 total 4
 drwxr-xr-x.  3 root root   28 Nov 23 13:11 .
 drwxr-xr-x. 22 root root 4096 Nov 23 13:11 ..
 drwxr-xr-x.  2 web  web    24 Nov 23 13:13 super_site_web
-[tomfox@localhost www]$ ls -la super_site_web/
+[tomfox@node1 www]$ ls -la super_site_web/
 total 4
 drwxr-xr-x. 2 web  web   24 Nov 23 13:13 .
 drwxr-xr-x. 3 root root  28 Nov 23 13:11 ..
@@ -312,9 +312,9 @@ drwxr-xr-x. 3 root root  28 Nov 23 13:11 ..
 ```
 
 ```bash
-[tomfox@localhost www]$ cat /etc/nginx/nginx.conf | grep root
+[tomfox@node1 www]$ cat /etc/nginx/nginx.conf | grep root
         root         /var/www/super_site_web;
-[tomfox@localhost www]$ sudo systemctl restart nginx
+[tomfox@node1 www]$ sudo systemctl restart nginx
 ```
 
 ```bash
