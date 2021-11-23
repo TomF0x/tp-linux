@@ -276,12 +276,57 @@ passwd: all authentication tokens updated successfully.
 web:x:2000:2000::/home/web:/bin/bash
 ```
 
-```bash=
+```bash
 [tomfox@localhost ~]$ cat /etc/nginx/nginx.conf
-# For more information on configuration, see:
-#   * Official English Documentation: http://nginx.org/en/docs/
-#   * Official Russian Documentation: http://nginx.org/ru/docs/
-
 user web;
+```
+
+```bash
+[tomfox@localhost ~]$ sudo systemctl restart nginx
+[sudo] password for tomfox: 
+[tomfox@localhost ~]$ ps -aux | grep nginx
+web         5669  0.0  0.4 151820  7932 ?        S    13:03   0:00 nginx: worker process
+```
+
+**🌞 Changer l'emplacement de la racine Web**
+
+```bash
+[tomfox@localhost var]$ sudo mkdir www
+[tomfox@localhost var]$ cd www/
+[tomfox@localhost www]$ sudo mkdir super_site_web
+[tomfox@localhost www]$ cd super_site_web/
+[tomfox@localhost www]$ cd super_site_web/
+[tomfox@localhost super_site_web]$ sudo vi index.html
+[tomfox@localhost super_site_web]$ cd ..
+[tomfox@localhost www]$ sudo chown -R web:web super_site_web/
+[tomfox@localhost www]$ ls -la
+total 4
+drwxr-xr-x.  3 root root   28 Nov 23 13:11 .
+drwxr-xr-x. 22 root root 4096 Nov 23 13:11 ..
+drwxr-xr-x.  2 web  web    24 Nov 23 13:13 super_site_web
+[tomfox@localhost www]$ ls -la super_site_web/
+total 4
+drwxr-xr-x. 2 web  web   24 Nov 23 13:13 .
+drwxr-xr-x. 3 root root  28 Nov 23 13:11 ..
+-rw-r--r--. 1 web  web  101 Nov 23 13:13 index.html
+```
+
+```bash
+[tomfox@localhost www]$ cat /etc/nginx/nginx.conf | grep root
+        root         /var/www/super_site_web;
+[tomfox@localhost www]$ sudo systemctl restart nginx
+```
+
+```bash
+❯ curl http://192.168.58.37:8080/
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Heading</h1>
+<p>My first paragraph.</p>
+
+</body>
+</html>
 ```
 f
