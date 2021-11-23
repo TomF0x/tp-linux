@@ -259,7 +259,7 @@ success
 ```
 
 ```bash
-❯ curl http://192.168.58.37/
+❯ curl http://192.168.58.37:8080/
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 ```
 
@@ -329,4 +329,3 @@ drwxr-xr-x. 3 root root  28 Nov 23 13:11 ..
 </body>
 </html>
 ```
-f
