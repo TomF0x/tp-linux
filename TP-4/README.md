@@ -239,8 +239,6 @@ Nov 23 12:41:35 node1.tp4.linux nginx[5543]: nginx: the configuration file /etc/
 Nov 23 12:41:35 node1.tp4.linux nginx[5543]: nginx: configuration file /etc/nginx/nginx.conf test is successful
 Nov 23 12:41:35 node1.tp4.linux systemd[1]: nginx.service: Failed to parse PID from file /run/nginx.pid: Invalid argument
 Nov 23 12:41:35 node1.tp4.linux systemd[1]: Started The nginx HTTP and reverse proxy server.
-[tomfox@node1 ~]$ 
-
 ```
 
 ```bash
