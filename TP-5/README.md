@@ -299,7 +299,7 @@ IncludeOptional conf.d/*.conf
 
 ```bash
 [tomfox@web conf.d]$ sudo mkdir -p /var/www/nextcloud/html/
-[tomfox@web conf.d]$ sudo chown -R apache:apache /var/www
+[tomfox@web conf.d]$ sudo chown -R apache:apache /var/www/nextcloud
 ```
 
 **🌞 Configurer PHP**
