@@ -263,4 +263,203 @@ Complete!
 [...]
 Complete!
 ```
-b
+
+### 2. Conf Apache
+
+```bash
+[tomfox@web conf.d]$ grep conf.d /etc/httpd/conf/httpd.conf 
+# Load config files in the "/etc/httpd/conf.d" directory, if any.
+IncludeOptional conf.d/*.conf
+```
+
+**🌞 Créer un VirtualHost qui accueillera NextCloud**
+
+```bash
+[tomfox@web conf.d]$ cat my_website.conf 
+<VirtualHost *:80>
+  DocumentRoot /var/www/nextcloud/html/  # on précise ici le dossier qui contiendra le site : la racine Web
+  ServerName  web.tp5.linux  # ici le nom qui sera utilisé pour accéder à l'application
+
+  <Directory /var/www/nextcloud/html/>
+    Require all granted
+    AllowOverride All
+    Options FollowSymLinks MultiViews
+
+    <IfModule mod_dav.c>
+      Dav off
+    </IfModule>
+  </Directory>
+</VirtualHost>
+```
+
+**🌞 Configurer la racine web**
+
+```bash
+[tomfox@web conf.d]$ sudo mkdir -p /var/www/nextcloud/html/
+[tomfox@web conf.d]$ sudo chown -R apache:apache /var/www
+```
+
+**🌞 Configurer PHP**
+
+```bash
+[tomfox@web ~]$ cat /etc/opt/remi/php74/php.ini | grep Paris
+;date.timezone = "Europe/Paris"
+```
+
+### 3. Install NextCloud
+
+**🌞 Récupérer Nextcloud**
+
+```bash
+[tomfox@web ~]$ cd
+[tomfox@web ~]$ curl -SLO https://download.nextcloud.com/server/releases/nextcloud-21.0.1.zip
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  148M  100  148M    0     0  12.0M      0  0:00:12  0:00:12 --:--:-- 13.3M
+[tomfox@web ~]$ ls
+nextcloud-21.0.1.zip
+[tomfox@web ~]$ file nextcloud-21.0.1.zip 
+nextcloud-21.0.1.zip: Zip archive data, at least v1.0 to extract
+```
+
+**🌞 Ranger la chambre**
+
+```bash
+[tomfox@web ~]$ unzip nextcloud-21.0.1.zip
+[tomfox@web ~]$ sudo mv nextcloud/* /var/www/nextcloud/html
+[tomfox@web ~]$ sudo chown -R apache:apache /var/www/nextcloud
+[sudo] password for tomfox: 
+[tomfox@web ~]$ sudo systemctl restart httpd
+[tomfox@web ~]$ rm -rf nextcloud*
+```
+
+### 4. Test
+
+**🌞 Modifiez le fichier hosts de votre PC**
+
+```bash
+❯ cat /etc/hosts
+# Host addresses
+127.0.0.1  localhost
+127.0.1.1  ZenBook
+::1        localhost ip6-localhost ip6-loopback
+ff02::1    ip6-allnodes
+ff02::2    ip6-allrouters
+10.5.1.11  web.tp5.linux
+```
+
+**🌞 Tester l'accès à NextCloud et finaliser son install**
+
+Site fonctionnel
+
+<img src="https://i.imgur.com/217RH4i.png"><br>
+
+DB fonctionnel
+
+```bash
+mysql> SHOW TABLES;
++-----------------------------+
+| Tables_in_nextcloud         |
++-----------------------------+
+| oc_accounts                 |
+| oc_accounts_data            |
+| oc_activity                 |
+| oc_activity_mq              |
+| oc_addressbookchanges       |
+| oc_addressbooks             |
+| oc_appconfig                |
+| oc_authtoken                |
+| oc_bruteforce_attempts      |
+| oc_calendar_invitations     |
+| oc_calendar_reminders       |
+| oc_calendar_resources       |
+| oc_calendar_resources_md    |
+| oc_calendar_rooms           |
+| oc_calendar_rooms_md        |
+| oc_calendarchanges          |
+| oc_calendarobjects          |
+| oc_calendarobjects_props    |
+| oc_calendars                |
+| oc_calendarsubscriptions    |
+| oc_cards                    |
+| oc_cards_properties         |
+| oc_collres_accesscache      |
+| oc_collres_collections      |
+| oc_collres_resources        |
+| oc_comments                 |
+| oc_comments_read_markers    |
+| oc_dav_cal_proxy            |
+| oc_dav_shares               |
+| oc_direct_edit              |
+| oc_directlink               |
+| oc_federated_reshares       |
+| oc_file_locks               |
+| oc_filecache                |
+| oc_filecache_extended       |
+| oc_files_trash              |
+| oc_flow_checks              |
+| oc_flow_operations          |
+| oc_flow_operations_scope    |
+| oc_group_admin              |
+| oc_group_user               |
+| oc_groups                   |
+| oc_jobs                     |
+| oc_known_users              |
+| oc_login_flow_v2            |
+| oc_mail_accounts            |
+| oc_mail_aliases             |
+| oc_mail_attachments         |
+| oc_mail_classifiers         |
+| oc_mail_coll_addresses      |
+| oc_mail_mailboxes           |
+| oc_mail_message_tags        |
+| oc_mail_messages            |
+| oc_mail_provisionings       |
+| oc_mail_recipients          |
+| oc_mail_tags                |
+| oc_mail_trusted_senders     |
+| oc_migrations               |
+| oc_mimetypes                |
+| oc_mounts                   |
+| oc_notifications            |
+| oc_notifications_pushtokens |
+| oc_oauth2_access_tokens     |
+| oc_oauth2_clients           |
+| oc_preferences              |
+| oc_privacy_admins           |
+| oc_properties               |
+| oc_recent_contact           |
+| oc_richdocuments_assets     |
+| oc_richdocuments_direct     |
+| oc_richdocuments_wopi       |
+| oc_schedulingobjects        |
+| oc_share                    |
+| oc_share_external           |
+| oc_storages                 |
+| oc_storages_credentials     |
+| oc_systemtag                |
+| oc_systemtag_group          |
+| oc_systemtag_object_mapping |
+| oc_talk_attendees           |
+| oc_talk_bridges             |
+| oc_talk_commands            |
+| oc_talk_guestnames          |
+| oc_talk_internalsignaling   |
+| oc_talk_rooms               |
+| oc_talk_sessions            |
+| oc_text_documents           |
+| oc_text_sessions            |
+| oc_text_steps               |
+| oc_trusted_servers          |
+| oc_twofactor_backupcodes    |
+| oc_twofactor_providers      |
+| oc_user_status              |
+| oc_user_transfer_owner      |
+| oc_users                    |
+| oc_vcategory                |
+| oc_vcategory_to_object      |
+| oc_webauthn                 |
+| oc_whats_new                |
++-----------------------------+
+99 rows in set (0.00 sec)
+```b
