@@ -266,6 +266,9 @@ Complete!
 
 ### 2. Conf Apache
 
+
+**🌞 Analyser la conf Apache**
+
 ```bash
 [tomfox@web conf.d]$ grep conf.d /etc/httpd/conf/httpd.conf 
 # Load config files in the "/etc/httpd/conf.d" directory, if any.
@@ -462,4 +465,4 @@ mysql> SHOW TABLES;
 | oc_whats_new                |
 +-----------------------------+
 99 rows in set (0.00 sec)
-```b
+```
