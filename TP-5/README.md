@@ -299,7 +299,7 @@ IncludeOptional conf.d/*.conf
 
 ```bash
 [tomfox@web conf.d]$ sudo mkdir -p /var/www/nextcloud/html/
-[tomfox@web conf.d]$ sudo chown -R apache:apache /var/www/nextcloud
+[tomfox@web conf.d]$ sudo chown -R apache:apache /var/www
 ```
 
 **🌞 Configurer PHP**
@@ -466,3 +466,59 @@ mysql> SHOW TABLES;
 +-----------------------------+
 99 rows in set (0.00 sec)
 ```
+
+## Bonus
+
+➜ Mettre en place du HTTPS sur le serveur web :heavy_check_mark: 
+
+```bash
+[tomfox@web ~]$ sudo mkdir -p /etc/ssl/private
+[tomfox@web ~]$ sudo openssl req -new -x509 -days 365 -nodes -out /etc/ssl/certs/webserver.crt -keyout /etc/ssl/private/webserver.key
+Generating a RSA private key
+.................................................................................+++++
+.............................+++++
+writing new private key to '/etc/ssl/private/webserver.key'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [XX]:FR
+State or Province Name (full name) []:Aquitaine  
+Locality Name (eg, city) [Default City]:Bordeaux
+Organization Name (eg, company) [Default Company Ltd]:TomFox Corp
+Organizational Unit Name (eg, section) []:
+Common Name (eg, your name or your server s hostname) []:web.tp5.linux
+Email Address []:tom@tomfoxcorp.com
+[tomfox@web ~]$ sudo chmod 440 /etc/ssl/private/webserver.key
+[tomfox@web ~]$ sudo dnf install mod_ssl
+[tomfox@web conf.d]$ cat ssl.conf | grep webserver
+SSLCertificateFile /etc/ssl/certs/webserver.crt
+SSLCertificateKeyFile /etc/ssl/private/webserver.key
+[tomfox@web conf.d]$ cat my_website.conf 
+<VirtualHost *:80>
+  RedirectPermanent / https://web.tp5.linux/
+</VirtualHost>
+
+<VirtualHost *:443>
+  SSLEngine On
+  SSLCertificateFile /etc/ssl/certs/webserver.crt
+  SSLCertificateKeyFile /etc/ssl/private/webserver.key
+  DocumentRoot /var/www/nextcloud/html/
+  ServerName  web.tp5.linux
+
+  <Directory /var/www/nextcloud/html/>
+    Require all granted
+    AllowOverride All
+    Options FollowSymLinks MultiViews
+
+    <IfModule mod_dav.c>
+      Dav off
+    </IfModule>
+  </Directory>
+</VirtualHost>
+```
+Notre site utilise est accessible en https et le http redirect vers le https
