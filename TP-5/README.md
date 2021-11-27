@@ -522,3 +522,7 @@ SSLCertificateKeyFile /etc/ssl/private/webserver.key
 </VirtualHost>
 ```
 Notre site utilise est accessible en https et le http redirect vers le https
+
+<img src="https://i.imgur.com/C0Z21EU.png"><br>
+
+➜ Mettre en place de la répartition de charge :heavy_check_mark:
