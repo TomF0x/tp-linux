@@ -168,3 +168,48 @@ tcp   LISTEN 0      64                 [::]:2049          [::]:*     ino:62048 s
 [...]
 Complete!
 ```
+
+**🌞 Conf'**
+
+```bash
+[tomfox@web1 ~]$ sudo mkdir /srv/backup
+[tomfox@web1 ~]$ cat /etc/idmapd.conf | grep tp6.linux
+Domain = tp6.linux
+[tomfox@web1 ~]$ sudo mount -t nfs 10.5.1.13:/backup/web.tp6.linux /srv/backup
+```
+
+**🌞 Montage !**
+
+```bash
+[tomfox@web1 ~]$ df -h | grep backup
+10.5.1.13:/backup/web.tp6.linux  4.9G   20M  4.6G   1% /srv/backup
+[tomfox@web1 ~]$ echo "testmec" > /srv/backup/test.txt
+[tomfox@web1 ~]$ cat /srv/backup/test.txt 
+testmec
+[tomfox@web1 ~]$ cat /etc/fstab | grep backup
+10.5.1.13:/backup/web.tp6.linux /srv/backup nfs defaults 0 0
+[tomfox@web1 ~]$ sudo umount /srv/backup
+[tomfox@web1 ~]$ sudo mount -av
+[...]
+mount.nfs: timeout set for Tue Nov 30 13:20:16 2021
+mount.nfs: trying text-based options 'vers=4.2,addr=10.5.1.13,clientaddr=10.5.1.11'
+/srv/backup              : successfully mounted
+```
+
+**🌞 Répétez les opérations sur db.tp6.linux**
+
+```bash
+[tomfox@db ~]$ df -h | grep backup
+10.5.1.13:/backup/db.tp6.linux  4.9G   20M  4.6G   1% /srv/backup
+[tomfox@db ~]$ echo "lepetittest" > /srv/backup/testmec.txt
+[tomfox@db ~]$ cat /srv/backup/testmec.txt
+lepetittest
+[tomfox@db ~]$ cat /etc/fstab | grep db
+10.5.1.13:/backup/db.tp6.linux /srv/backup nfs defaults 0 0
+[tomfox@db ~]$ sudo umount /srv/backup 
+[tomfox@db ~]$ sudo mount -av
+[...]
+mount.nfs: timeout set for Tue Nov 30 13:31:10 2021
+mount.nfs: trying text-based options 'vers=4.2,addr=10.5.1.13,clientaddr=10.5.1.12'
+/srv/backup              : successfully mounted
+```
