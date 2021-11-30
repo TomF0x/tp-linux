@@ -196,7 +196,7 @@ mount.nfs: trying text-based options 'vers=4.2,addr=10.5.1.13,clientaddr=10.5.1.
 /srv/backup              : successfully mounted
 ```
 
-**🌞 Répétez les opérations sur db.tp6.linux**
+**🌞 Répétez les opérations sur `db.tp6.linux`**
 
 ```bash
 [tomfox@db ~]$ df -h | grep backup
@@ -213,3 +213,9 @@ mount.nfs: timeout set for Tue Nov 30 13:31:10 2021
 mount.nfs: trying text-based options 'vers=4.2,addr=10.5.1.13,clientaddr=10.5.1.12'
 /srv/backup              : successfully mounted
 ```
+
+## Partie 4 : Scripts de sauvegarde
+
+### I. Sauvegarde Web
+
+**🌞 Ecrire un script qui sauvegarde les données de NextCloud**
