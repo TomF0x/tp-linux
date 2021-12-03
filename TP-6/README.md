@@ -219,3 +219,11 @@ mount.nfs: trying text-based options 'vers=4.2,addr=10.5.1.13,clientaddr=10.5.1.
 ### I. Sauvegarde Web
 
 **🌞 Ecrire un script qui sauvegarde les données de NextCloud**
+
+```bash
+#!/bin/bash
+filename="nextcloud_$(date +"%y%m%d")_$(date +"%H%M%S").tar.gz"
+cd /var/www && tar -czf "/srv/backup/${filename}" nextcloud
+echo "Backup /srv/backup/$(filename) created successfully."
+echo "[$(date +"%y:%m:%d") $(date +"%H:%M:%S")] Backup /srv/backup/${filename} created successfully." >> /var/log/backup/backup.log
+```
